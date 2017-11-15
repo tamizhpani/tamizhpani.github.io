@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>Tamizhpani Tamil Apps</title>
+<link id ="css_page" rel="stylesheet" type="text/css" media="all" href="css/page.css">
+<script type="text/javascript" src="pages.json"></script>
+<meta name="viewport" content="width=device-width">
+<script type="text/javascript" >
+var mydata;
+
+function drawblocks(){
+
+}
+
+function loadbookmarks() {
+mydata = JSON.parse(data);
+alert(mydata.length);
+var div = document.getElementById('blocks');
+
+/*
+              var newdiv = document.createElement('div');
+              newdiv.style = "style='clear:both;' padding: 5px 5px;";
+              newdiv.innerHTML = "Load<input type='text' name='mydctype"+dcloads +"'" + " id='mydctype"+dcloads +"'"+ "style= 'width:35%;'>"+"&nbsp;"+"Watts<input type='text' name='mydcwatt"+dcloads +"'" + " id='mydcwatt"+dcloads +"'"+ "style= 'width:35%;'><hr>";
+			  
+              document.getElementById(divName).appendChild(newdiv);
+*/
+
+var col1div = document.createElement('div');
+col1div.id="column1";
+col1div.className="column";
+var col2div = document.createElement('div');
+col2div.id="column2";
+col2div.className="column";
+var col3div = document.createElement('div');
+col3div.id="column3";
+col3div.className="column";
+var col4div = document.createElement('div');
+col4div.id="column4";
+col4div.className="column";
+var addto =1;
+var count = 1;
+for(var i = 0;i < mydata.length; i++)
+{
+
+//alert(mydata[i].thumbnail);
+
+//div.innerHTML = div.innerHTML + "<p class='inner' id="+i+">"+ mydata[i].linkname +"~"+mydata[i].link +"</p>" + "<br>";
+
+if(addto > 4) addto=1;
+
+switch (addto)
+{
+case 1:
+ 	col1div.innerHTML = col1div.innerHTML + "<a href='"+mydata[i].link +"'>"+"<img src='thumbnails/"+ mydata[i].thumbnail +"'"+ " style='width:100%;clear:right'></a>" + "<div style='width:100%;background-color: #FE9A2E;color:#FFFFFF'>"+mydata[i].linkname +"</div>";
+  break;
+case 2:
+  col2div.innerHTML = col2div.innerHTML + "<a href='"+mydata[i].link +"'>"+ "<img src='thumbnails/"+ mydata[i].thumbnail +"'"+ " style='width:100%;clear:right'></a>"  + "<div style='width:100%;background-color: #FE9A2E;color:#FFFFFF'>"+mydata[i].linkname +"</div>";
+  break;
+case 3:
+  col3div.innerHTML = col3div.innerHTML + "<a href='"+mydata[i].link +"'>"+ "<img src='thumbnails/"+ mydata[i].thumbnail +"'"+ " style='width:100%;clear:right'></a>"  + "<div style='width:100%;background-color: #FE9A2E;color:#FFFFFF'>"+mydata[i].linkname +"</div>";
+  break;
+case 4:
+  col4div.innerHTML = col4div.innerHTML + "<a href='"+mydata[i].link +"'>"+ "<img src='thumbnails/"+ mydata[i].thumbnail +"'"+ " style='width:100%;clear:right'></a>"  + "<div style='width:100%;background-color: #FE9A2E;color:#FFFFFF'>"+mydata[i].linkname +"</div>";
+default:
+
+}
+
+
+addto= addto+1;
+}
+
+
+div.appendChild(col1div);
+div.appendChild(col2div);
+div.appendChild(col3div);
+div.appendChild(col4div);
+
+//drawblocks(w,h);
+}
+
+     </script>
+</head>
+   <body onload="loadbookmarks()">
+<div class="pageborder">
+<div class="divpage">
+
+<script>
+function getdim(){
+
+alert("width="+w+","+"height="+h);
+loadbookmarks();
+}
+</script>
+<div id= "blocks" class="row"></div>
+
+
+
+
+
+</div>
+</div>
+</body>
+</html>

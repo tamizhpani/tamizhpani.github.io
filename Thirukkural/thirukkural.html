@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script type="text/javascript" src="js/couplets.js"></script>
+
+<meta name="viewport" content="width=device-width">
+<title>Thirukkural Bot</title>
+<style>
+html, body, div, span,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend {
+	background: transparent;
+	border: 0;
+	vertical-align: baseline;
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+td{
+font-size:80%;
+}
+
+.app { background:#cccccc; }
+
+.appbox { background: #444444; padding: 20px;  position: relative;
+width:80%;
+left: 10%;
+right:10%;
+ }
+.appboxinner { 
+	background: #808080; padding: 10px;  position: relative;-moz-box-shadow: inset 0 1px 0 #444; -webkit-box-shadow: inset 0 1px 0 #444; box-shadow: inset 0 1px 0 #444;text-align:center;
+}
+.radius { -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; }
+.searchbox{
+width:75%;
+display:inline-block;
+background-color:#ffffff;
+}
+a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+}
+
+a:hover {
+    background-color: #dddddd;
+    color: black;
+}
+
+.previous {
+    background-color: #d2b48c;
+    color: black;
+}
+
+.next {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.searchicon {
+    background-color: #ffff00;
+    color: black;
+    -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px;
+}
+
+.round {
+    border-radius: 50%;
+}
+</style>
+</head>
+   <body class="app" onload='loadcouplets()'>
+<script>
+var thiscouplet = 1;
+function loadcouplets(){
+//var ex2 = "அகர முதல எழுத்தெல்லாம் ஆதி";
+//var tstr = JSON.stringify(thirukkural1330);
+//alert (tstr.length);
+//alert (thirukkural1330.couplet1);
+alert(thirukkural1330["couplet2"]);
+loadthiscouplet(thiscouplet);
+}
+
+function searchcouplet(){
+var searchstr = document.getElementById("searchcouplet").value;
+alert(searchstr);
+boolcheck = isPositiveInteger(searchstr);
+if(boolcheck == true) loadthiscouplet(parseInt(searchstr));
+}
+
+function lastcouplet(){
+if(thiscouplet >= 2) thiscouplet--;
+loadthiscouplet(thiscouplet);
+}
+
+function nextcouplet(){
+if(thiscouplet < 1330) thiscouplet++;
+loadthiscouplet(thiscouplet);
+}
+
+function loadthiscouplet(coupletno){
+document.getElementById("txtoutput").value = thirukkural1330["couplet"+String(coupletno)];
+thiscouplet = coupletno;
+}
+function isPositiveInteger(n) {
+    return 0 === n % (!isNaN(parseFloat(n)) && 0 <= ~~n);
+}
+</script>
+<div class="appbox radius">
+<a href="https://tamizhpani.github.io/" style="float:left;margin-left:10px;margin-top:10px;"><img src="images/backtohome.svg" style="width:100%;"/></a>
+<p style="text-align:center;color:#FFF;font-size:50px;">Thirukkural / திருக்குறள்</p>
+	<div class="appboxinner radius">
+	<div class="searchbox radius">
+	<input type="text" id="searchcouplet" name="searchcouplet" placeholder="தமிழ் / English / Number" style="width:60%;"/>
+	<a href="javascript:searchcouplet()" class="searchicon" style="font-style: italic;">&#9906;</a>
+	<a href="javascript:lastcouplet();" class="previous round">&#8249;</a>
+<a href="javascript:nextcouplet();" class="next round">&#8250;</a>
+	</div>
+<textarea id = "txtoutput" style="width:75%;font-size:30px;display: block;margin-left: auto;margin-right: auto;padding:15px;box-sizing: border-box;" charset="utf-8" rows="10">
+</textarea>
+</div>
+</div>
+   </body>
+</html>
