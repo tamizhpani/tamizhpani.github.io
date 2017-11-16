@@ -74,20 +74,46 @@ a:hover {
    <body class="app" onload='loadcouplets()'>
 <script>
 var thiscouplet = 1;
+var lastsearch = "";
 function loadcouplets(){
 //var ex2 = "அகர முதல எழுத்தெல்லாம் ஆதி";
 //var tstr = JSON.stringify(thirukkural1330);
 //alert (tstr.length);
 //alert (thirukkural1330.couplet1);
-alert(thirukkural1330["couplet2"]);
+//alert(thirukkural1330["couplet2"]);
 loadthiscouplet(thiscouplet);
 }
 
 function searchcouplet(){
 var searchstr = document.getElementById("searchcouplet").value;
-alert(searchstr);
+//alert(searchstr);
 boolcheck = isPositiveInteger(searchstr);
-if(boolcheck == true) loadthiscouplet(parseInt(searchstr));
+if(boolcheck == true){
+loadthiscouplet(parseInt(searchstr));
+} else {
+//search all couplets for the phrase
+var key;
+if(searchstr == lastsearch){
+key = thiscouplet+1;
+}else{
+key = 1;
+}
+var couplet;
+
+for (var i=key;i<=1330;i++){
+
+ couplet = thirukkural1330["couplet"+ i];
+ if(couplet.search(searchstr) != -1){
+   document.getElementById("txtoutput").value = couplet;
+   thiscouplet = i;
+   break;
+ }
+
+}
+
+}
+
+lastsearch = searchstr;
 }
 
 function lastcouplet(){
@@ -113,7 +139,7 @@ function isPositiveInteger(n) {
 <p style="text-align:center;color:#FFF;font-size:50px;">Thirukkural / திருக்குறள்</p>
 	<div class="appboxinner radius">
 	<div class="searchbox radius">
-	<input type="text" id="searchcouplet" name="searchcouplet" placeholder="தமிழ் / English / Number" style="width:60%;"/>
+	<input type="text" id="searchcouplet" name="searchcouplet" placeholder="தமிழ் / English / Number(1 to 1330)" style="width:60%;"/>
 	<a href="javascript:searchcouplet()" class="searchicon" style="font-style: italic;">&#9906;</a>
 	<a href="javascript:lastcouplet();" class="previous round">&#8249;</a>
 <a href="javascript:nextcouplet();" class="next round">&#8250;</a>
