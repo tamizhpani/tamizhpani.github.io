@@ -1,0 +1,12 @@
+var maiyakkam = {o:"&#x0bca;",
+ oo:"&#x0bcb;",
+ au:"&#x0bcc;",
+ pulli:"&#x0bcd;",
+ aa:"&#x0bbe;",
+ i:"&#x0bbf;",
+ ii:"&#x0bc0;",
+ u:"&#x0bc1;",
+ uu:"&#x0bc2;",
+ e:"&#x0bc6;",
+ ee:"&#x0bc7;",
+ ai:"&#x0bc8;"};

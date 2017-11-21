@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tamil Transliteration</title>
+    <style type="text/css">
+
+    </style>
+    
+<script type="text/javascript" src="js/tamil_phonetics.js"></script>
+<script type="text/javascript" src="js/maiyakkam.js"></script>    
+</head>
+<body>
+
+ <script type="text/javascript">
+
+
+function tamil2english(){
+var result = "";
+var chkstr = document.getElementById("txtinput").value;
+var wrdlen = chkstr.length;		
+var codes = getcharcodes(chkstr);
+var i;
+var tocheck = "";
+var update_result=true;
+	for(i=codes.length-1;i>=0;i--){
+	
+	if(tocheck.length > 0){
+	tocheck = codes[i] + tocheck;
+	update_result=true;
+	}else{
+	tocheck = codes[i];
+	var ismul = isMultiplier(tocheck);
+	update_result = !ismul;
+	}
+
+	if(update_result){
+	var kp;
+	var istamil = false;
+    for(kp in keypair){
+	   if(keypair[kp] == tocheck){
+	    result = kp + result;
+	    istamil = true;
+	    break;
+	   }
+	   
+	 }
+	if(istamil == false) result = decodeEntities(codes[i]) + result; 
+	tocheck = "";	
+	}	
+		
+
+	}
+document.getElementById("txtoutput").value = result;
+
+}
+
+var decodeEntities = (function() {
+  // this prevents any overhead from creating the object each time
+  var element = document.createElement('div');
+
+  function decodeHTMLEntities (str) {
+    if(str && typeof str === 'string') {
+      // strip script/html tags
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+      element.innerHTML = str;
+      str = element.textContent;
+      element.textContent = '';
+    }
+
+    return str;
+  }
+
+  return decodeHTMLEntities;
+})();
+
+
+
+
+function isMultiplier(ckstr){
+result = false;
+var multipliers = maiyakkam;
+var keys;
+		for(keys in multipliers){
+			if(multipliers[keys] == ckstr){
+			result = true;
+			break;
+			}else{
+			continue;
+			}
+
+		}
+return result;
+}
+
+
+function getcharcodes(str){
+var chararray =[];
+for (i=0; i<str.length; i++) {
+        hex = str.charCodeAt(i).toString(16);
+        chararray.push("&#x"+ ("000"+hex).slice(-4) + ";");
+    }
+
+return chararray;
+}
+
+
+String.prototype.hexEncode = function(){
+    var hex, i;
+
+    var result = "";
+    for (i=0; i<this.length; i++) {
+        hex = this.charCodeAt(i).toString(16);
+        result += ("000"+hex).slice(-4) + "/";
+    }
+
+    return result
+}
+
+String.prototype.hexDecode = function(){
+    var j;
+    var hexes = this.match(/.{1,4}/g) || [];
+    var back = "";
+    for(j = 0; j<hexes.length; j++) {
+        back += String.fromCharCode(parseInt(hexes[j], 16));
+    }
+
+    return back;
+}
+
+
+
+
+function cleartxt(){
+
+document.getElementById("txtinput").innerHTML = "";
+document.getElementById("txtoutput").innerHTML = "";
+document.getElementById("txtinput").value ="";
+document.getElementById("txtoutput").value = "";
+
+}
+ </script>
+<h1>தமிழ்-ஆங்கிலம் ஒலிபெயர்ப்பு / Tamil-English Transliteration</h1>
+<textarea id = "txtinput" rows="10" cols="100">
+</textarea>
+<button id="Btn1" onclick="tamil2english()">Convert</button>
+<br>
+<textarea id = "txtoutput" rows="10" cols="100">
+</textarea>
+<button id="Btn1" onclick="cleartxt()">Clear All</button>
+
+<input type="hidden" id="txtstatus" value="0">
+</body>
+<html>
