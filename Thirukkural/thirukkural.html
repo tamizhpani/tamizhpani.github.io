@@ -2,7 +2,16 @@
 <html>
 <head>
 <script type="text/javascript" src="js/couplets.js"></script>
-
+<script type="text/javascript" src="js/couplets_eng.js"></script>
+<script type="text/javascript" src="js/chapters.js"></script>
+<script type="text/javascript" src="js/chapters_eng.js"></script>
+<script type="text/javascript" src="js/contexts.js"></script>
+<script type="text/javascript" src="js/contexts_eng.js"></script>
+<script type="text/javascript" src="js/sections.js"></script>
+<script type="text/javascript" src="js/sections_eng.js"></script>
+<script type="text/javascript" src="js/counts.js"></script>
+<script type="text/javascript" src="js/tamil_phonetics.js"></script>
+<script type="text/javascript" src="js/maiyakkam.js"></script>    
 <meta name="viewport" content="width=device-width">
 <title>Thirukkural Bot</title>
 <style>
@@ -69,13 +78,193 @@ a:hover {
 .round {
     border-radius: 50%;
 }
+
+/*----------------------------------------------------------Responsive(400)-----------------------------------------------------------*/
+
+
+/* For Mobile */
+@media screen and (max-width: 400px) {
+.screentxt{
+width:75%;
+font-size:10px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+padding:5px;
+box-sizing: border-box;
+-moz-appearance: textfield;
+-webkit-appearance: textfield;
+background-color: white;
+background-color: -moz-field;
+border: 1px solid darkgray;
+box-shadow: 1px 1px 1px 0 lightgray inset;
+margin-top: 5px;
+padding: 2px 3px;
+
+}
+}
+/*----------------------------------------------------------Responsive(500)-----------------------------------------------------------*/
+
+@media screen and (min-width:400px) and (max-width: 500px) {
+.screentxt{
+width:75%;
+font-size:12px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+padding:5px;
+box-sizing: border-box;
+-moz-appearance: textfield;
+-webkit-appearance: textfield;
+background-color: white;
+background-color: -moz-field;
+border: 1px solid darkgray;
+box-shadow: 1px 1px 1px 0 lightgray inset;
+margin-top: 5px;
+padding: 2px 3px;
+
+}
+}
+/*----------------------------------------------------------Responsive(650)-----------------------------------------------------------*/
+
+@media screen and (min-width:500px) and (max-width: 650px) {
+.screentxt{
+width:75%;
+font-size:16px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+padding:6px;
+box-sizing: border-box;
+-moz-appearance: textfield;
+-webkit-appearance: textfield;
+background-color: white;
+background-color: -moz-field;
+border: 1px solid darkgray;
+box-shadow: 1px 1px 1px 0 lightgray inset;
+margin-top: 5px;
+padding: 2px 3px;
+
+}
+}
+/*----------------------------------------------------------Responsive(720)-----------------------------------------------------------*/
+/* For Tablets */
+@media screen and (min-width: 650px) and (max-width: 720px) {
+.screentxt{
+width:75%;
+font-size:18px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+padding:10px;
+box-sizing: border-box;
+-moz-appearance: textfield;
+-webkit-appearance: textfield;
+background-color: white;
+background-color: -moz-field;
+border: 1px solid darkgray;
+box-shadow: 1px 1px 1px 0 lightgray inset;
+margin-top: 5px;
+padding: 2px 3px;
+
+}
+}
+/*----------------------------------------------------------Respnsive(880)-----------------------------------------------------------*/
+@media screen and (min-width: 720px) and (max-width: 880px) {
+.screentxt{
+width:75%;
+font-size:20px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+padding:11px;
+box-sizing: border-box;
+-moz-appearance: textfield;
+-webkit-appearance: textfield;
+background-color: white;
+background-color: -moz-field;
+border: 1px solid darkgray;
+box-shadow: 1px 1px 1px 0 lightgray inset;
+margin-top: 5px;
+padding: 2px 3px;
+
+}
+}
+/*----------------------------------------------------------Respnsive(1040)-----------------------------------------------------------*/
+
+@media screen and (min-width: 880px) and (max-width: 1040px) {
+.screentxt{
+width:75%;
+font-size:22px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+padding:13px;
+box-sizing: border-box;
+-moz-appearance: textfield;
+-webkit-appearance: textfield;
+background-color: white;
+background-color: -moz-field;
+border: 1px solid darkgray;
+box-shadow: 1px 1px 1px 0 lightgray inset;
+margin-top: 5px;
+padding: 2px 3px;
+
+}
+}
+/*----------------------------------------------------------Responsive(4800)-----------------------------------------------------------*/
+/* For Jumbo Screens */
+@media screen and (min-width: 1040px) {
+.screentxt{
+width:75%;
+font-size:25px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+padding:15px;
+box-sizing: border-box;
+-moz-appearance: textfield;
+-webkit-appearance: textfield;
+background-color: white;
+background-color: -moz-field;
+border: 1px solid darkgray;
+box-shadow: 1px 1px 1px 0 lightgray inset;
+margin-top: 5px;
+padding: 2px 3px;
+
+}
+
+}
+
 </style>
 </head>
-   <body class="app" onload='loadcouplets()'>
+   <body class="app" onload='loadmycouplet()'>
 <script>
 var thiscouplet = 1;
 var lastsearch = "";
-function loadcouplets(){
+
+function GetCycleValue(){
+var r0 = 1;
+var r1 = 1330;
+var d = new Date();
+var n = d.getTime();
+var tmpstr = n +'';
+var l = tmpstr.length;
+var tostart = l - 4;
+var fourdigits = tmpstr.substring(tostart);
+fourdigits = parseInt(fourdigits);
+var modfactor = fourdigits % r1 ;
+if(modfactor == 0) modfactor = r1;
+while(modfactor < r0){
+modfactor = modfactor + r0;
+modfactor = modfactor % r1;
+}
+var result = parseInt(modfactor);
+return result;
+}
+
+function loadmycouplet(){
+thiscouplet = GetCycleValue();
 //var ex2 = "அகர முதல எழுத்தெல்லாம் ஆதி";
 //var tstr = JSON.stringify(thirukkural1330);
 //alert (tstr.length);
@@ -87,33 +276,49 @@ loadthiscouplet(thiscouplet);
 function searchcouplet(){
 var searchstr = document.getElementById("searchcouplet").value;
 //alert(searchstr);
-boolcheck = isPositiveInteger(searchstr);
+var boolcheck = isPositiveInteger(searchstr);
 if(boolcheck == true){
 loadthiscouplet(parseInt(searchstr));
 } else {
 //search all couplets for the phrase
 var key;
+var isEnglish = isAlphaNumeric(searchstr);
+
 if(searchstr == lastsearch){
 key = thiscouplet+1;
 }else{
 key = 1;
 }
 var couplet;
+if(isEnglish == true){
+	for (var i=key;i<=1330;i++){
 
-for (var i=key;i<=1330;i++){
+	 couplet = thirukkural1330E["couplet"+ i];
+	 if(couplet.search(searchstr) != -1){
+	   loadthiscouplet(i);
+	   thiscouplet = i;
+	   break;
+	 }
 
- couplet = thirukkural1330["couplet"+ i];
- if(couplet.search(searchstr) != -1){
-   document.getElementById("txtoutput").value = couplet;
-   thiscouplet = i;
-   break;
- }
+	
 
+	}
+}else{
+	for (var i=key;i<=1330;i++){
+
+	 couplet = thirukkural1330["couplet"+ i];
+	 if(couplet.search(searchstr) != -1){
+	   loadthiscouplet(i);
+	   thiscouplet = i;
+	   break;
+	 }
+
+	}
+
+	
 }
-
-}
-
 lastsearch = searchstr;
+}
 }
 
 function lastcouplet(){
@@ -127,12 +332,194 @@ loadthiscouplet(thiscouplet);
 }
 
 function loadthiscouplet(coupletno){
-document.getElementById("txtoutput").value = thirukkural1330["couplet"+String(coupletno)];
+var tamilcouplet = thirukkural1330["couplet"+String(coupletno)];
+var tamilcouplet = tamilcouplet.replace("\n", "<br>");
+var englishcouplet = thirukkural1330E["couplet"+String(coupletno)];
+var englishcouplet = englishcouplet.replace("\n", "<br>");
+document.getElementById("txtoutput").innerHTML = tamilcouplet + "<br><br>"+ tamil2english(thirukkural1330["couplet"+String(coupletno)]) +"<br><br>"+ englishcouplet + "<br>" + GetCoupletInfo(coupletno) ;
 thiscouplet = coupletno;
 }
+
 function isPositiveInteger(n) {
     return 0 === n % (!isNaN(parseFloat(n)) && 0 <= ~~n);
 }
+
+function isAlphaNumeric(str) {
+  var code, i, len;
+
+  for (i = 0, len = str.length; i < len; i++) {
+    code = str.charCodeAt(i);
+    if (!(code > 47 && code < 58) && // numeric (0-9)
+        !(code > 64 && code < 91) && // upper alpha (A-Z)
+        !(code > 96 && code < 123)) { // lower alpha (a-z)
+      return false;
+    }
+  }
+  return true;
+}
+
+function GetCoupletInfo(coupletno){
+var info="";
+var chap =1;
+var endofchap = coupletno%10;
+if(coupletno > 10){
+	if(endofchap == 0){
+	var tmp = (coupletno/10).toFixed(1);
+	chap = tmp.substring(0,tmp.indexOf("."));
+	}else{
+	var prno = coupletno + 10;
+	var tmp = (prno/10).toFixed(1);
+	chap = tmp.substring(0,tmp.indexOf("."));
+	
+	}
+}
+chap = parseInt(chap);
+var i;
+var contextid;
+for(i=1;i<=13;i++){
+var contextval = thirukkural["Context"+i];
+var crange = (contextval.Chapters).split("-");
+if(chap >= parseInt(crange[0]) && chap <= parseInt(crange[1])){
+contextid = i;
+break;
+}
+}
+var sectionid;
+for(i=1;i<=3;i++){
+var sectionval = thirukkural["Section"+i];
+var srange = (sectionval.Contexts).split("-");
+if(contextid >= parseInt(srange[0]) && contextid <= parseInt(srange[1])){
+sectionid = i;
+break;
+}
+}
+
+var ofsection = "Section"+sectionid;
+var ofcontext = "Context"+contextid;
+var chapno = "Chapter"+chap;
+
+info = "<p style='font-size: 75%;'>["+ "அதிகாரம்"+ chap + ":"+ thirukkural133[chapno] + "," +"இயல்"+ contextid + ":" + thirukkural13[ofcontext]+ ","+"பால்"+ sectionid + ":" + thirukkural3[ofsection] + "]" + "<br>" + "[" + chapno + ":" + thirukkural133E[chapno] + "," +ofcontext+ ":" + thirukkural13E[ofcontext]+ ","+ ofsection + ":" + thirukkural3E[ofsection]+"]</p>";
+info = info.italics();
+return info;
+}
+
+
+
+function tamil2english(tamilstr){
+var result = "";
+var wrdlen = tamilstr.length;		
+var codes = getcharcodes(tamilstr);
+var i;
+var tocheck = "";
+var update_result=true;
+	for(i=codes.length-1;i>=0;i--){
+	
+	if(tocheck.length > 0){
+	tocheck = codes[i] + tocheck;
+	update_result=true;
+	}else{
+	tocheck = codes[i];
+	var ismul = isMultiplier(tocheck);
+	update_result = !ismul;
+	}
+
+	if(update_result){
+	var kp;
+	var istamil = false;
+    for(kp in keypair){
+	   if(keypair[kp] == tocheck){
+	    result = kp + result;
+	    istamil = true;
+	    break;
+	   }
+	   
+	 }
+	if(istamil == false) result = decodeEntities(codes[i]) + result; 
+	tocheck = "";	
+	}	
+		
+}
+return result;
+
+}
+
+var decodeEntities = (function() {
+  // this prevents any overhead from creating the object each time
+  var element = document.createElement('div');
+
+  function decodeHTMLEntities (str) {
+    if(str && typeof str === 'string') {
+      // strip script/html tags
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+      element.innerHTML = str;
+      str = element.textContent;
+      element.textContent = '';
+    }
+
+    return str;
+  }
+
+  return decodeHTMLEntities;
+})();
+
+
+
+
+function isMultiplier(ckstr){
+result = false;
+var multipliers = maiyakkam;
+var keys;
+		for(keys in multipliers){
+			if(multipliers[keys] == ckstr){
+			result = true;
+			break;
+			}else{
+			continue;
+			}
+
+		}
+return result;
+}
+
+
+function getcharcodes(str){
+var chararray =[];
+for (i=0; i<str.length; i++) {
+        hex = str.charCodeAt(i).toString(16);
+        chararray.push("&#x"+ ("000"+hex).slice(-4) + ";");
+    }
+
+return chararray;
+}
+
+
+String.prototype.hexEncode = function(){
+    var hex, i;
+
+    var result = "";
+    for (i=0; i<this.length; i++) {
+        hex = this.charCodeAt(i).toString(16);
+        result += ("000"+hex).slice(-4) + "/";
+    }
+
+    return result
+}
+
+String.prototype.hexDecode = function(){
+    var j;
+    var hexes = this.match(/.{1,4}/g) || [];
+    var back = "";
+    for(j = 0; j<hexes.length; j++) {
+        back += String.fromCharCode(parseInt(hexes[j], 16));
+    }
+
+    return back;
+}
+
+
+
+
 </script>
 <div class="appbox radius">
 <a href="https://tamizhpani.github.io/" style="float:left;margin-left:10px;margin-top:10px;"><img src="images/backtohome.svg" style="width:100%;"/></a>
@@ -144,9 +531,11 @@ function isPositiveInteger(n) {
 	<a href="javascript:lastcouplet();" class="previous round">&#8249;</a>
 <a href="javascript:nextcouplet();" class="next round">&#8250;</a>
 	</div>
-<textarea id = "txtoutput" style="width:75%;font-size:30px;display: block;margin-left: auto;margin-right: auto;padding:15px;box-sizing: border-box;" charset="utf-8" rows="10">
-</textarea>
+
+<div id="txtoutput" class="screentxt" charset="utf-8" contenteditable="true"></div>
+
 </div>
 </div>
+<input type="hidden" id="txtstatus" value="0">
    </body>
 </html>
