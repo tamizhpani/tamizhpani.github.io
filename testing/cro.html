@@ -1,0 +1,162 @@
+<html>
+<head>
+<style>
+html, body {
+  width:  100%;
+  height: 100%;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+ 
+<script>
+var ctx = null;
+var canvas = document.getElementById('canvas');
+function cro() {
+    
+    ctx = canvas.getContext('2d');
+    canvas.height = window.innerHeight *0.8;
+    canvas.width = window.innerWidth*0.8;
+		canvas.style.border = "1px solid blue";
+    canvas.addEventListener('mousedown', function(e) {
+      this.down = true;  
+      this.X = e.pageX ;
+      this.Y = e.pageY ;
+      this.color = rgb();
+    }, 0);
+    canvas.addEventListener('mouseup', function() {
+      this.down = false;      
+    }, 0);
+    canvas.addEventListener('mousemove', function(e) {
+      this.style.cursor = 'pointer';
+      if(this.down) {
+          ctx.beginPath();
+          ctx.moveTo(this.X, this.Y);
+          ctx.lineCap = 'round';
+           ctx.lineWidth = 3;
+          ctx.lineTo(e.pageX , e.pageY );
+          ctx.strokeStyle = this.color;
+          ctx.stroke();
+
+         this.X = e.pageX ;
+         this.Y = e.pageY ;
+      }
+    });
+   drawxyaxis();
+}
+
+    function rgb() {
+      color = 'rgb(';
+      for(var i = 0; i< 3; i++) {
+        color += Math.floor(Math.random() * 255)+',';
+      }
+      return color.replace(/\,$/,')');
+    } 
+		var cro_height = 0;
+		var cro_width = 0;
+		var cro_midx = 0;
+		var cro_midy = 0;
+		var cro_xmajor = 0;
+		var cro_ymajor = 0;
+		
+function drawxyaxis(){
+  cro_height = canvas.height;
+	cro_width = canvas.width;
+	cro_midx = cro_width / 2;
+	cro_midy = cro_height / 2;
+	cro_xmajor = cro_width / 11;
+	cro_ymajor = cro_height / 10;
+	 
+       ctx.beginPath();
+          ctx.moveTo(0, cro_midy);
+          ctx.lineCap = 'round';
+           ctx.lineWidth = 3;
+          ctx.lineTo(cro_width , cro_midy );
+          ctx.strokeStyle = "black";
+          ctx.stroke();
+					
+				       ctx.beginPath();
+          ctx.moveTo(cro_xmajor, 0);
+          ctx.lineCap = 'round';
+           ctx.lineWidth = 3;
+          ctx.lineTo(cro_xmajor, cro_height );
+          ctx.strokeStyle = "black";
+          ctx.stroke();	
+					let xn = cro_xmajor;
+					for(let xmaj = 1;xmaj <= 10; xmaj++){
+					xn += cro_xmajor;
+					ctx.beginPath();
+          ctx.moveTo(xn, cro_midy-2);
+          ctx.lineCap = 'round';
+           ctx.lineWidth = 3;
+          ctx.lineTo(xn, cro_midy+2);
+          ctx.strokeStyle = "black";
+          ctx.stroke();	
+					}
+					let yn = 0;
+					for(let ymaj = 1;ymaj <= 10; ymaj++){
+					yn += cro_ymajor;
+					ctx.beginPath();
+          ctx.moveTo(cro_xmajor -2, yn);
+          ctx.lineCap = 'round';
+           ctx.lineWidth = 3;
+          ctx.lineTo(cro_xmajor +2, yn);
+          ctx.strokeStyle = "black";
+          ctx.stroke();	
+					}
+					
+}
+cro();
+function onresizeevent(){
+cro();
+}
+window.addEventListener('resize', onresizeevent);
+var increase = Math.PI * 2 / 100;
+var xstep = cro_xmajor * 3 / 100;
+var waveheight = cro_ymajor * 4;
+var counter = 0;
+var xval = cro_xmajor;
+var x1 = cro_xmajor;
+var y1 = cro_midy;
+var x2 = 0;
+var y2 = 0;
+var draw_on = null;
+function drawSine(){
+    console.log("10 seconds");
+		
+// 100 iterations
+
+  
+xval = xval + xstep;
+
+  x2 = xval;
+  y2 =  cro_midy + (Math.sin( counter ) / 2) *waveheight;
+	
+	//cro_xmajor + xval,cro_midy + ysine
+						ctx.beginPath();
+          ctx.moveTo(x1,y1);
+          ctx.lineCap = 'round';
+           ctx.lineWidth = 2;
+          ctx.lineTo(x2,y2);
+          ctx.strokeStyle = "red";
+          ctx.stroke();
+	x1 = x2;
+	y1 = y2;
+	counter += increase;
+
+if(xval <= (cro_xmajor*4)){
+    draw_on = setTimeout(drawSine, 300);
+		}else{
+		 clearTimeout(draw_on);
+		}
+}
+
+
+
+</script>
+<button onclick="drawSine()">SineWave</button>
+</body>
+</html>
