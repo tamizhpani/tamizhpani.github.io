@@ -1,0 +1,283 @@
+<html>
+<style>
+html,body{
+width: 100%;
+height: 100%;
+}
+img{
+width: 40%;
+height: 50%;
+}
+</style>
+<body>
+<img src="shortestpath.png"/>
+<p id="givendata"></p>
+ <label>Starting Node:</label>
+  <input type="text" id="snode" name="snode"><br>
+	 <label>Ending Node:</label>
+  <input type="text" id="enode" name="enode"><br>
+	<button onclick="tracepath()">Find Shortest Path</button>
+<p id="results" style="background-color:LightYellow;"></p>
+<script>
+
+connecting_stations = ["ab","ac","bd","bc","ce","ed","ef","df"]
+givendata.innerHTML = connecting_stations;
+distances = [4,2,10,5,3,4,3,11]
+givendata.innerHTML = givendata.innerHTML + "<br>" + distances;
+
+function updatepath(arr,link,rflag){
+	let result = arr.slice(0);
+//["ab","ac","bd","bc","ce","ed","ef","df"]
+	let tail = getTail(link);	
+	let index = getIndexOf(arr,tail);
+	for(let i = 0;i<index.length;i++){
+		if(arr.length == 0 || index[i] == -1){
+			result.push(link);
+		}else{
+			let oldpath = result[index[i]]
+			let newpath = link + oldpath ;
+			result.splice(index[i],1,newpath);
+			if(rflag == true){
+				result.push(oldpath);
+			}
+		}
+	}
+	return result;
+}
+
+function getIndexOf(arr,tail){
+	indexcount = 0;
+	result = [];
+	result[indexcount] = -1;
+	if(arr.length > 0){
+		for(let i=0;i<arr.length;i++){
+			let element = arr[i];
+			let h = getHead(element);
+			if(h == tail){
+				result[indexcount] = i;
+				indexcount += 1;
+			}
+		}
+	}
+	return result;
+}
+
+function getLinksEndWith(links,node){
+	let result = [];
+	for(let i=0;i<links.length;i++){
+		let n = links[i];
+		if(n[1] == node){
+			result.push(n);
+		}
+	}
+	return result;
+}
+
+function hasUpLink(links,tail){
+	let result = false;
+	for(let i=0;i<links.length;i++){
+		let n = links[i];
+		if(n[1] == tail){
+			result = true;
+			break;
+		}
+	}
+	return result;
+}
+
+function getLinksStartWith(links,node){
+	let result = [];
+	for(let i=0;i<links.length;i++){
+		let n = links[i];
+		if(n[0] == node){
+			result.push(n);
+		}
+	}
+	return result;
+}
+
+
+function getHead(link){
+ return link[0];
+}
+function getTail(link){
+ return link[1];
+}
+function getMapNodes(links){
+let nodes = [];
+for(let n = 0;n<links.length;n++){
+	let thisnode = links[n];
+	if(thisnode.length == 2){
+		if(nodes.indexOf(thisnode[0]) === -1){
+			nodes.push(thisnode[0]);
+		}	
+		if(nodes.indexOf(thisnode[1]) === -1){
+			nodes.push(thisnode[1]);
+		}	
+	}
+	}
+return nodes;
+}
+
+function getMapNodeLevels(nodes,links){
+result = {};
+	for(let n=0;n<nodes.length;n++){
+		let thisnode = nodes[n];
+		let downlinks = getLinksEndWith(links,thisnode);
+		let count = 0;
+		let a = [];
+		while(count < downlinks.length){
+			a.push(count);
+			count += 1;
+		}
+		result[thisnode] = a;
+	}
+return result;
+}
+function getLevels(links){
+let result = [];
+let count = 0;
+		while(count < links.length){
+			result.push(count);
+			count += 1;
+		}
+return result;
+}
+
+function setBottom(w,l){
+let result = -1;
+if(l == -1){
+	l = w.length;
+}
+for(let i = 0;i < w.length;i++){
+	if(w[i] == 1){
+		if(i<l){
+			result = i;
+		}
+	}
+}
+return result;
+}
+
+function shiftArrayLeft(binaryarray){
+	let l = binaryarray.length;
+	let tmp = binaryarray.slice(1);
+	tmp.push(0);
+	if(tmp.length == l){
+		return tmp;
+	}else{
+		return -1;
+	}
+}
+function shiftArrayRight(binaryarray){
+	let l = binaryarray.length;
+	let tmp = binaryarray.slice(0,-1);
+	tmp.splice(0, 0, 0);
+	if(tmp.length == l){
+		return tmp;
+	}else{
+		return -1;
+	}
+}
+
+
+
+function getPermutations(nodes,levels){
+let permutations = {};
+let n = [];
+let l = [];
+for(let i = nodes.length-1;i>0;i--){ //leave the last node
+	n.push(nodes[i]);
+	l.push(levels[nodes[i]]);
+}
+let result = [];
+	for(let i = l.length-1; i >= 0;i--){
+			result = getmap(l[i],result);
+		}
+		permutations["nodes"] = n;
+		permutations["paths"] = result;
+ return permutations;
+}
+
+function getmap(arr1,arr2){
+let result = [];
+	if(arr1.length == 0 && arr2.length > 0){
+		return arr2;
+	}else if(arr1.length > 0 && arr2.length == 0){
+		return arr1;
+	}else if(arr1.length == 0 && arr1.length == 0){
+		return result;
+	}
+	for(let i=0;i<arr1.length;i++){
+		for(let j=0;j<arr2.length;j++){
+		 let map = arr1[i].toString() + arr2[j].toString();
+		 result.push(map);
+		}
+	}
+return result;
+}
+
+
+
+//connecting_stations - links
+//distances - link lengths
+// [ab","ac","bd","bc","ce","ed","ef","df"]
+// [4,2,10,5,3,4,3,11]
+function tracepath(){
+	let nodes = getMapNodes(connecting_stations);
+	//alert(nodes);
+	let levels = getMapNodeLevels(nodes,connecting_stations);
+	let permutations = getPermutations(nodes,levels);
+	//let tracemap = {priority:0,increment_priority : function() {
+//this.priority += 1;
+  //}};
+	//alert(JSON.stringify(permutations));
+  //let paths = searchpaths(snode.value,enode.value,connecting_stations,tracemap);
+//alert(JSON.stringify(paths)); for
+ let mypaths = [];
+ let mypathstring = [];
+ for(let p = 0;p<permutations.paths.length;p++){
+  let tmp = trace(snode.value,enode.value,connecting_stations,permutations.nodes,permutations.paths[p]);
+	tmp = tmp.slice(0,-1);
+		if(mypathstring.indexOf(tmp) == -1){
+			mypathstring.push(tmp);
+			mypaths.push(tmp.split(';'));
+		}
+	}
+
+	let pathsum = 0;
+	//calculate distances
+	for(let i=0;i<mypaths.length;i++){
+		let thispath = mypaths[i];
+		pathsum = 0;
+		for(let j=0;j<thispath.length;j++){
+			let idx = connecting_stations.indexOf(thispath[j]);
+			pathsum = pathsum + distances[idx];
+		}
+		results.innerHTML = results.innerHTML + thispath + ":" + pathsum + "<br>";
+	}
+}
+
+function trace(s,e,l,n,p){
+let d = getLinksEndWith(l,e);
+let choice = 0;
+let i = n.indexOf(e);
+let u = "";
+let sep = ';';
+	if(d.length == 0){
+		return u;
+	}else{
+		choice = parseInt(p.charAt(i));
+		u = getHead(d[choice]);
+		if(u == s){
+			return d[choice] + sep;
+		}
+	}
+	return trace(s,u,l,n,p) + d[choice] + sep;
+}
+
+
+</script>
+
+</body>
+</html>
