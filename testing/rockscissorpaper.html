@@ -1,0 +1,139 @@
+<html>
+<style>
+div.shadow {
+ display:inline-block;
+  -webkit-box-shadow: 5px 5px 5px #aaa;
+  -moz-box-shadow: 5px 5px 5px #aaa;
+  box-shadow: 5px 5px 5px #aaa;
+  margin-bottom: 10px;
+}
+div.shadow p {
+		opacity:60%;
+		color:LightGray;
+    margin: 0;
+    position: absolute;
+		z-index: -1;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) 
+		}
+div.shadow {
+  position:relative;
+  height:281px;
+  width:450px;
+  margin:0 auto;
+}
+div.shadow img {
+  position:absolute;
+		top: 20%;
+    left: 35%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) 
+	z-index: 10;
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
+}
+
+#cf2 img.transparent {
+opacity:0;
+}
+#cf_onclick {
+cursor:pointer;
+}
+.loader {
+	display:none;
+  position:absolute;
+		top: 35%;
+    left: 40%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) 
+	z-index: 20;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+<body>
+<h1><span style="opacity: 0.5;">Paper</span> &gt Rock  &gt Sissor  &gt Paper  Game</h1>
+<div id="cf2" class="shadow">
+  <p style="font-size: 60px;">Player</p>
+	<img id="player_img" class="top" src="" />
+	<div id="ploader" class="loader"></div>
+</div>
+<div id="cf3" class="shadow">
+  <p style="font-size: 60px;">Computer</p>
+  <img id="computer_img" class="top" src="" />
+	<div id="cloader" class="loader"></div>
+</div>
+<br><br>
+
+<form>
+  Select your choice:
+  <select id="mySelect" onchange="myFunction()">
+		<option value="empty"></option>
+    <option value="rock">Rock</option>
+    <option value="paper">Paper</option>
+    <option value="scissor">Scissor</option>
+  </select>
+</form>
+<button id="cf_onclick" onclick="playgame()">Play</button>
+<br>
+<h1 id="result"></h1>
+<script>
+var game = {};
+function myFunction() {
+ let x = document.getElementById("mySelect").value;
+ let imgfile = x + ".svg";
+  let element = document.getElementById("player_img");
+	element.src = imgfile;
+	game["player"] = x;
+}
+function playgame(){
+document.getElementById("player_img").className = "transparent";
+document.getElementById("ploader").style.display = "block";
+document.getElementById("cloader").style.display = "block";
+setTimeout(function(){
+const choices = ["rock","paper","scissor"];
+const random = Math.floor(Math.random() * choices.length); 
+let imgfile = choices[random] + ".svg";
+game["computer"] = choices[random];
+let element = document.getElementById("computer_img");
+	element.src = imgfile;
+	document.getElementById("ploader").style.display = "none";
+document.getElementById("cloader").style.display = "none";
+document.getElementById("player_img").className = "top";
+document.getElementById("result").innerHTML = whowins(game);
+}, 1000);
+}
+function whowins(selections){
+	const choices = ["rock","paper","scissor"];
+	let p = choices.indexOf(selections["player"]);
+	let c = choices.indexOf(selections["computer"]);
+	if(p == c){
+	 return "draw";
+	}else if(p == c+1 || (p == 0 && c == 2)){
+	 return "Player wins Computer";
+	}else{
+	 return "Computer wins Player";
+	}
+}
+</script>
+</body>
