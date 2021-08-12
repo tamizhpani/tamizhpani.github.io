@@ -1,0 +1,100 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+<style>
+.videosize {
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+}
+
+.videosize:hover {
+  background-color: #555555;
+  color: white;
+}
+
+.videospeed {
+  background-color: white;
+  color: dodgerblue;
+  border: 2px solid #555555;
+}
+
+.videospeed:hover {
+  background-color: #555555;
+  color: white;
+}
+
+.videodir {
+  background-color: white;
+  color: orange;
+  border: 2px solid #555555;
+}
+
+.videodir:hover {
+  background-color: #555555;
+  color: white;
+}
+</style>
+</head>
+<body> 
+
+
+<video id="myVideo" width="426" height="240" controls>
+  <source src="magic.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+<h3>Choose Video Size</h3>
+<div>
+<!--
+720p: 1280x720
+480p: 854x480
+360p: 640x360
+240p: 426x240
+-->
+<button class="videosize" onclick="setVideoSize(426,240)">240p</button>
+<button class="videosize" onclick="setVideoSize(640,360)">360p</button>
+<button class="videosize" onclick="setVideoSize(854,480)">480p</button>
+<button class="videosize" onclick="setVideoSize(1280,720)">720p</button>
+</div>
+<h3>Change Video Speed</h3>
+<button onclick="getPlaySpeed()" type="button">What is the playback speed?</button>
+<br><br>
+<div>
+<!--
+
+-->
+<button class="videospeed" onclick="setPlaySpeed(1)">Normal</button>
+<button class="videospeed" onclick="setPlaySpeed(0.5)">Slower</button>
+<button class="videospeed" onclick="setPlaySpeed(2)">Faster</button>
+<button class="videospeed" onclick="setPlaySpeed(0)">Custom Speed:</button>
+<input type="number" id="speed" name="speed" placeholder="0.3 - 4.0"><br><br>
+</div>
+<script>
+var vid = document.getElementById("myVideo");
+
+function getPlaySpeed() { 
+  alert(vid.playbackRate);
+} 
+
+function setVideoSize(w,h){
+ document.getElementById("myVideo").width = w;
+ document.getElementById("myVideo").height = h;
+}
+
+function setPlaySpeed(s) {
+ if(s != 0){
+		vid.playbackRate = s;
+	}else{
+	
+	  if(speed.value.length != 0){
+			vid.playbackRate = speed.value;
+		}else{
+			alert("Enter a valid input");
+		}
+	}
+}
+
+</script> 
+
+</body> 
+</html>
