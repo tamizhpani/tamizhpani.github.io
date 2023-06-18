@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<!--
+<link rel="stylesheet" type="text/css" href="yourcss.css" />
+<script src="yourscript.js"></script>
+-->
+<script src="js/data.js"></script>
+<script src="js/code.js"></script>
+<script src="js/common.js"></script>
+<link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="css/w3pro.css">
+<meta name="viewport" content="width=device-width">
+</head>
+<body>
+<div class="w3-container w3-pale-yellow">
+  <object data="images/apphead.svg" type="image/svg+xml">
+  <img src="images/apphead.png" />
+</object>
+<div class="w3-container w3-orange">
+  <label for="languages">Choose a Language:</label>
+  <select name="languages" id="languages">
+	  <option value="none"></option>
+  </select>
+</div>
+</div>
+<div class="w3-container w3-card-4 w3-light-grey">
+<form id="starsToCheck"  name="starsToCheck_n" enctype="multipart/form-data" method="post">
+
+  <fieldset>
+    <h2 id="app_input_head"></h2> 
+    <div id="outerdiv1">
+    <div id="innerdiv1">
+      <label for="malestar" id="lbl_malestar_head"></label>
+  <select name="malestar" id="malestar" class="w3-input w3-border">
+	  <option value="none"></option>
+  </select>
+     <label for="malerasi"  id="lbl_malerasi_head" style="display:none;"></label>
+  <select name="malerasi" id="malerasi" style="display:none;" class="w3-input w3-border">
+	  <option value="none"></option>
+  </select>
+    </div> <!--inner1 div -->
+    <div id="innerdiv2">
+      <label for="femalestar"  id="lbl_femalestar_head"></label>
+  <select name="femalestar" id="femalestar" class="w3-input w3-border">
+	  <option value="none"></option>
+  </select>
+  <label for="femalerasi"  id="lbl_femalerasi_head" style="display:none;"></label>
+    <select name="femalerasi" id="femalerasi" style="display:none;" class="w3-input w3-border">
+	  <option value="none"></option>
+  </select>
+    </div> <!--inner2 div -->
+    
+    </div> <!--outer div -->
+  </fieldset>
+ 
+</form>
+ <button onclick="checkCompatability()">Check</button>
+</div>
+<div id="feedback" style="display:none;">
+<div class="w3-container">
+  <h2 id="userinput_title"></h2>
+</div>
+<div class="w3-row w3-border">
+<div class="w3-container w3-half w3-khaki">
+  <h2 id="male_input_head" class="w3-deep-orange" style="padding: 2px 20px 2px 10px;"></h2> 
+  <h3 id="male_input_rasi"></h3>
+  <h3 id="male_input_star"></h3>  
+</div>
+<div class="w3-container w3-half w3-light-blue">
+  <h2 id="female_input_head" class="w3-brown" style="padding: 2px 20px 2px 10px;"></h2>  
+   <h3 id="female_input_rasi"></h3>
+  <h3 id="female_input_star"></h3>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    var ele0 = document.getElementById("languages");
+    var ele1 = document.getElementById("app_input_head");
+    var ele2 = document.getElementById("lbl_malestar_head");
+    var ele3 = document.getElementById("lbl_femalestar_head");
+    var ele4 = document.getElementById("malestar");
+    var ele5 = document.getElementById("femalestar");
+    var ele6 = document.getElementById("lbl_malerasi_head");
+    var ele7 = document.getElementById("lbl_femalerasi_head");
+    var ele8 = document.getElementById("malerasi");
+    var ele9 = document.getElementById("femalerasi");
+    var ele0_loaded = false;
+        //alert(appdata); /*test data load*/
+     
+        
+        const lflag = (function () {
+        
+        for(let key in appdata.languages){
+            let x = document.createElement("OPTION");
+            x.setAttribute("value", appdata.languages[key]);
+            let t = document.createTextNode(appdata.languages[key]);
+            x.appendChild(t);
+            ele0.appendChild(x);
+        }
+        })();
+        
+
+    const myPromise = new Promise(function(myResolve, myReject) {
+    // When a new <option> is selected
+        ele0.addEventListener("change", () => {
+          const index = ele0.selectedIndex;
+          // Add that data to the <p>
+          appdata.session.language = ele0.options[index].text;
+          //alert(appdata.session.language);
+          if(ele0_loaded == true){
+          set(ele1,appdata.session.language);
+          set(ele2,appdata.session.language);
+          set(ele3,appdata.session.language);
+          set(ele4,appdata.session.language);
+          set(ele5,appdata.session.language);
+          set(ele6,appdata.session.language);
+          set(ele7,appdata.session.language);
+          //set(ele8,appdata.session.language);
+          //set(ele9,appdata.session.language);
+          ele6.style.display = "none";
+          ele7.style.display = "none";
+          removeSelectList(ele8); 
+          removeSelectList(ele9); 
+          ele8.style.display = "none";
+          ele9.style.display = "none";
+          document.getElementById("feedback").style.display = "none";
+          }else{
+          myResolve("languages_updated");
+          }
+        });
+        ele4.addEventListener("change", () => {
+              const index = ele4.selectedIndex;
+              // Add that data to the <p>
+              appdata.session.male_star = ele4.options[index].value;
+              //alert(appdata.session.language);
+              
+            /*confirmed rasis
+                [1,2] =1
+                [4] =2
+                [6] = 3
+                [8,9] =4    
+                [10,11] =5
+                [13] =6
+                [15] = 7
+                [17,18] =8  
+                [19,20] =9
+                [22] =10
+                [24] = 11
+                [26,27] =12     
+            */            
+            /*unconfirmed 
+                3,5,7,12,14,16,21,23,25
+            */
+            let r = appdata.rasiofstar[ele4.options[index].value];
+            if(r){ //r is valid
+                ele6.style.display = "none";
+                ele8.style.display = "none";
+                appdata.session.male_rasi = r;
+            }else{
+                set(ele8,appdata.session.language);
+                ele6.style.display = "block";
+                ele8.style.display = "block";
+            }
+          
+        });
+        ele5.addEventListener("change", () => {
+              const index = ele5.selectedIndex;
+              // Add that data to the <p>
+              appdata.session.female_star = ele5.options[index].value;
+              //alert(appdata.session.language);
+            let r = appdata.rasiofstar[ele5.options[index].value];
+            if(r){ //r is valid
+                ele7.style.display = "none";
+                ele9.style.display = "none";
+                appdata.session.female_rasi = r;
+            }else{
+                set(ele9,appdata.session.language);
+                ele7.style.display = "block";
+                ele9.style.display = "block";
+            }
+        });
+        
+        ele8.addEventListener("change", () => {
+              const index = ele8.selectedIndex;
+              // Add that data to the <p>
+              appdata.session.male_rasi = ele8.options[index].value;
+              //alert(appdata.session.language);
+
+        });
+        ele9.addEventListener("change", () => {
+              const index = ele9.selectedIndex;
+              // Add that data to the <p>
+              appdata.session.female_rasi = ele9.options[index].value;
+              //alert(appdata.session.language);
+
+        });
+    });
+
+
+myPromise.then(function(value) {
+    alert(value);
+    set(ele1,appdata.session.language);
+    set(ele2,appdata.session.language);
+    set(ele3,appdata.session.language);
+    set(ele4,appdata.session.language);
+    set(ele5,appdata.session.language);
+    set(ele6,appdata.session.language);
+    set(ele7,appdata.session.language);
+    //set(ele8,appdata.session.language);
+    //set(ele9,appdata.session.language);
+    ele0_loaded = true;
+});
+    
+    
+    
+
+  
+
+  
+</script>
+<br>
+<br>
+</body>
+</html>
